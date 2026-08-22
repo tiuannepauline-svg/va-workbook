@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Aspiring VA Journey — Workbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #17181c;
+    --bg-tape: #eee4d3;
+    --ink: #1b1b1b;
+    --paper-shadow: rgba(0,0,0,0.35);
+    --yellow: #f4c948;
+    --pink: #f2a6b8;
+    --green: #a9d18e;
+    --orange: #f5a04e;
+    --coral: #f2907a;
+    --blue: #8fd0e0;
+    --purple: #b7a4d9;
+    --gold: #e8b923;
+    --star-white: #f5f2ea;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html, body{
+    margin:0;
+    padding:0;
+    background: var(--bg);
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(255,255,255,0.025) 0, transparent 40%),
+      radial-gradient(circle at 85% 80%, rgba(255,255,255,0.02) 0, transparent 40%);
+    color: var(--star-white);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+  }
+
+  .wrap{
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 48px 28px 80px;
+  }
+
+  /* ---------- HEADER ---------- */
+  header{
+    text-align:center;
+    margin-bottom: 44px;
+    position: relative;
+  }
+
+  .banner{
+    display:inline-block;
+    background: var(--bg-tape);
+    color: var(--ink);
+    font-family: 'Kalam', cursive;
+    font-weight: 700;
+    font-size: clamp(28px, 5vw, 48px);
+    padding: 18px 46px;
+    border-radius: 3px;
+    transform: rotate(-1deg);
+    box-shadow: 0 10px 24px var(--paper-shadow), inset 0 0 0 1px rgba(0,0,0,0.05);
+    position: relative;
+  }
+  .banner::before, .banner::after{
+    content:"";
+    position:absolute;
+    top:-10px;
+    width: 46px;
+    height: 22px;
+    background: rgba(240,230,210,0.55);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+  }
+  .banner::before{ left: 18px; transform: rotate(-8deg); }
+  .banner::after{ right: 18px; transform: rotate(6deg); }
+
+  .subtitle{
+    margin-top: 18px;
+    font-size: 15px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #9a9a9f;
+    font-weight: 700;
+  }
+
+  /* ---------- PROGRESS (signature element) ---------- */
+  .track-wrap{
+    max-width: 780px;
+    margin: 34px auto 0;
+    padding: 18px 22px 20px;
+  }
+  .track-label{
+    display:flex;
+    justify-content: space-between;
+    align-items:baseline;
+    font-family:'Kalam', cursive;
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: var(--star-white);
+  }
+  #progress-count{ color: var(--gold); font-weight:700; }
+
+  .track{
+    position: relative;
+    height: 10px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 6px;
+    overflow: visible;
+  }
+  .track-fill{
+    height: 100%;
+    width: 0%;
+    border-radius: 6px;
+    background: linear-gradient(90deg, #f4c948, #f5a04e, #f2907a);
+    transition: width 0.5s cubic-bezier(.4,1.4,.6,1);
+  }
+  .track-rocket{
+    position:absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(-50%, -50%);
+    font-size: 22px;
+    transition: left 0.5s cubic-bezier(.4,1.4,.6,1);
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5));
+  }
+  .track-days{
+    display:flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 11px;
+    color: #7a7a80;
+    font-weight: 700;
+  }
+
+  /* ---------- BOARD ---------- */
+  .board{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 26px;
+    margin-top: 56px;
+  }
+  @media (max-width: 1080px){ .board{ grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 720px){ .board{ grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px){ .board{ grid-template-columns: 1fr; } }
+
+  .note{
+    --tilt: -1.2deg;
+    position: relative;
+    background: var(--yellow);
+    color: var(--ink);
+    border-radius: 2px;
+    padding: 22px 20px 20px;
+    transform: rotate(var(--tilt));
+    box-shadow: 0 14px 26px var(--paper-shadow);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    display:flex;
+    flex-direction:column;
+    min-height: 340px;
+  }
+  .note:hover{
+    transform: rotate(0deg) translateY(-4px) scale(1.015);
+    box-shadow: 0 20px 34px rgba(0,0,0,0.45);
+    z-index: 5;
+  }
+  .note.done{
+    box-shadow: 0 8px 16px var(--paper-shadow);
+  }
+
+  .note:nth-child(5n+1){ --tilt: -1.4deg; background: var(--yellow); }
+  .note:nth-child(5n+2){ --tilt: 1.1deg;  background: var(--pink); }
+  .note:nth-child(5n+3){ --tilt: -0.8deg; background: var(--green); }
+  .note:nth-child(5n+4){ --tilt: 1.6deg;  background: var(--orange); }
+  .note:nth-child(5n+5){ --tilt: -1.3deg; background: var(--coral); }
+  .board .note:nth-child(6){ background: var(--blue); }
+  .board .note:nth-child(7){ background: var(--purple); }
+  .board .note:nth-child(8){ background: var(--yellow); }
+  .board .note:nth-child(9){ background: var(--pink); }
+  .board .note:nth-child(10){ background: var(--blue); }
+
+  .pin{
+    position:absolute;
+    top: -9px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #fff, #d33 45%, #7a0f0f 100%);
+    box-shadow: 0 3px 4px rgba(0,0,0,0.4);
+  }
+
+  .note-day{
+    font-family:'Kalam', cursive;
+    font-weight:700;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-align:center;
+    opacity: 0.65;
+  }
+  .note-title{
+    font-family:'Kalam', cursive;
+    font-weight:700;
+    font-size: 21px;
+    text-align:center;
+    border-bottom: 2px solid rgba(0,0,0,0.25);
+    padding-bottom: 10px;
+    margin: 4px 0 14px;
+    line-height: 1.15;
+  }
+
+  .items{
+    list-style:none;
+    margin:0;
+    padding:0;
+    flex: 1;
+  }
+  .items li{
+    display:flex;
+    align-items:flex-start;
+    gap: 9px;
+    font-size: 14.5px;
+    font-weight: 600;
+    line-height: 1.35;
+    margin-bottom: 11px;
+    cursor: pointer;
+    user-select:none;
+  }
+  .items li input{
+    appearance: none;
+    -webkit-appearance:none;
+    width: 17px;
+    height: 17px;
+    min-width:17px;
+    margin-top: 1px;
+    border: 2px solid rgba(0,0,0,0.55);
+    border-radius: 3px;
+    background: rgba(255,255,255,0.35);
+    cursor: pointer;
+    position: relative;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .items li input:checked{
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+  .items li input:checked::after{
+    content:"";
+    position:absolute;
+    left: 4px;
+    top: 0px;
+    width: 5px;
+    height: 9px;
+    border: solid var(--star-white);
+    border-width: 0 2px 2px 0;
+    transform: rotate(40deg);
+  }
+  .items li input:focus-visible{
+    outline: 2px solid #1b1b1b;
+    outline-offset: 2px;
+  }
+  .items li.checked-text{
+    text-decoration: line-through;
+    opacity: 0.55;
+  }
+
+  .reminder{
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px dashed rgba(0,0,0,0.3);
+    font-family: 'Patrick Hand', cursive;
+    font-size: 13.5px;
+    line-height: 1.35;
+    display:flex;
+    gap: 8px;
+    align-items:flex-start;
+  }
+  .reminder .star{ font-size: 14px; flex-shrink:0; margin-top:1px; }
+
+  .note-check{
+    position:absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 22px;
+    opacity: 0;
+    transform: scale(0.5) rotate(-15deg);
+    transition: all 0.3s cubic-bezier(.4,1.6,.6,1);
+    pointer-events:none;
+  }
+  .note.done .note-check{
+    opacity: 1;
+    transform: scale(1) rotate(-8deg);
+  }
+
+  /* ---------- FOOTER ---------- */
+  .rule-wrap{
+    margin-top: 60px;
+    text-align:center;
+  }
+  .rule{
+    display:inline-block;
+    background: var(--bg-tape);
+    color: var(--ink);
+    padding: 26px 40px 30px;
+    border-radius: 3px;
+    transform: rotate(0.6deg);
+    box-shadow: 0 12px 26px var(--paper-shadow);
+    max-width: 780px;
+  }
+  .rule h3{
+    font-family:'Kalam', cursive;
+    font-size: 22px;
+    margin: 0 0 14px;
+    text-decoration: underline;
+  }
+  .rule .chain{
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .rule .chain span{ opacity: 0.55; }
+  .rule p{
+    font-family: 'Patrick Hand', cursive;
+    font-size: 16px;
+    margin: 4px 0;
+    line-height: 1.4;
+  }
+
+  .final-banner{
+    margin: 34px auto 0;
+    max-width: 320px;
+    border: 3px solid var(--gold);
+    color: var(--gold);
+    font-family: 'Kalam', cursive;
+    font-weight: 700;
+    font-size: 17px;
+    text-align:center;
+    padding: 16px 20px;
+    border-radius: 3px;
+    transform: rotate(-1deg);
+    letter-spacing: 0.02em;
+  }
+
+  .reset-btn{
+    display:block;
+    margin: 40px auto 0;
+    background: transparent;
+    border: 1.5px solid #4a4a50;
+    color: #a3a3a8;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+    transition: all 0.2s ease;
+  }
+  .reset-btn:hover{
+    border-color: #e8b923;
+    color: #e8b923;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header>
+    <div class="banner">Daily Aspiring VA Journey</div>
+    <div class="subtitle">A 10‑day, one‑step‑at‑a‑time workbook</div>
+
+    <div class="track-wrap">
+      <div class="track-label">
+        <span>Progress</span>
+        <span><span id="progress-count">0</span> / 46 tasks</span>
+      </div>
+      <div class="track">
+        <div class="track-fill" id="track-fill"></div>
+        <div class="track-rocket" id="track-rocket" style="left:0%;">🚀</div>
+      </div>
+      <div class="track-days">
+        <span>Day 1</span><span>Day 3</span><span>Day 5</span><span>Day 7</span><span>Day 10</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="board" id="board"></main>
+
+  <div class="rule-wrap">
+    <div class="rule">
+      <h3>Daily Rule</h3>
+      <div class="chain">
+        LEARN <span>→</span> PRACTICE <span>→</span> BUILD PROOF <span>→</span> POSITION <span>→</span> APPLY <span>→</span> TRACK <span>→</span> IMPROVE
+      </div>
+      <p>Don't jump from tutorial to tutorial.</p>
+      <p>Build your VA career one small, documented step at a time. ♡</p>
+    </div>
+    <div class="final-banner" id="final-banner">Consistency creates opportunities.</div>
+  </div>
+
+  <button class="reset-btn" id="reset-btn">Reset all checkboxes</button>
+
+</div>
+
+<script>
+const DAYS = [
+  {
+    day: 1, title: "Choose Your Niche", color: "yellow",
+    items: [
+      "Pick ONE niche to focus on.",
+      "Identify 3 services you can offer.",
+      "Research what clients in that niche actually need.",
+      "Stop trying to learn everything at once."
+    ],
+    reminder: "You don't need to be an expert yet. You need a direction.",
+    icon: "🤍"
+  },
+  {
+    day: 2, title: "Study the Problem", color: "pink",
+    items: [
+      "Find 5 real job posts in your niche.",
+      "List the skills clients repeatedly request.",
+      "Identify the problems those skills solve.",
+      "Create your learning checklist."
+    ],
+    reminder: "Study what clients pay for, not just what is interesting.",
+    icon: "〰️"
+  },
+  {
+    day: 3, title: "Learn the Tools", color: "green",
+    items: [
+      "Choose the essential tools for your niche.",
+      "Learn the basics.",
+      "Follow a practical tutorial.",
+      "Recreate what you learned."
+    ],
+    reminder: "Watching tutorials isn't proof that you can do the work.",
+    icon: "📈"
+  },
+  {
+    day: 4, title: "Build Your First Proof", color: "orange",
+    items: [
+      "Create one sample project.",
+      "Make it look like something a real client would need.",
+      "Document what you did.",
+      "Save screenshots/results."
+    ],
+    reminder: "No experience? Build evidence.",
+    icon: "📷"
+  },
+  {
+    day: 5, title: "Practice", color: "coral",
+    items: [
+      "Complete another realistic task.",
+      "Set a time limit.",
+      "Review your work.",
+      "Improve one weakness."
+    ],
+    reminder: "Practice turns knowledge into a skill.",
+    icon: "🎯"
+  },
+  {
+    day: 6, title: "Build Your Portfolio", color: "blue",
+    items: [
+      "Add your strongest samples.",
+      "Explain the problem.",
+      "Show your solution.",
+      "Highlight the result or expected business impact."
+    ],
+    reminder: "Your portfolio should answer: \"Why should I trust you?\"",
+    icon: "📈"
+  },
+  {
+    day: 7, title: "Position Yourself", color: "purple",
+    items: [
+      "Write your niche‑specific headline.",
+      "Define the client you want to serve.",
+      "Identify your strongest value proposition.",
+      "Remove generic \"I am hardworking\" statements."
+    ],
+    reminder: "Don't sell yourself as a VA. Position yourself as someone who solves a specific problem.",
+    icon: "🙋"
+  },
+  {
+    day: 8, title: "Learn Client Negotiation", color: "yellow",
+    items: [
+      "Practice asking discovery questions.",
+      "Learn how to uncover the real problem.",
+      "Practice explaining your solution.",
+      "Practice handling objections."
+    ],
+    reminder: "Whoever understands the problem better can present the better solution.",
+    icon: "💬"
+  },
+  {
+    day: 9, title: "Prepare Your Proposal", color: "pink",
+    items: [
+      "Find 3 relevant job posts.",
+      "Analyse the client's problem.",
+      "Write a personalised proposal.",
+      "Connect your proof to their needs."
+    ],
+    reminder: "Don't send \"I am interested.\" Show why you are relevant.",
+    icon: "✉️"
+  },
+  {
+    day: 10, title: "Start Client Hunting", color: "blue",
+    items: [
+      "Send targeted applications.",
+      "Track every application.",
+      "Record the client, position, proposal and result.",
+      "Improve your approach based on responses."
+    ],
+    reminder: "Client hunting is a process, not a one‑day activity.",
+    icon: "🚀"
+  }
+];
+
+const board = document.getElementById('board');
+let totalTasks = 0;
+DAYS.forEach(d => totalTasks += d.items.length);
+
+DAYS.forEach(d => {
+  const note = document.createElement('article');
+  note.className = 'note';
+  note.dataset.day = d.day;
+
+  const itemsHtml = d.items.map((text, i) => `
+    <li data-idx="${i}">
+      <input type="checkbox" id="d${d.day}-i${i}">
+      <label for="d${d.day}-i${i}" style="cursor:pointer;">${text}</label>
+    </li>`).join('');
+
+  note.innerHTML = `
+    <div class="pin"></div>
+    <div class="note-check">✅</div>
+    <div class="note-day">DAY ${d.day}</div>
+    <div class="note-title">${d.title}</div>
+    <ul class="items">${itemsHtml}</ul>
+    <div class="reminder"><span class="star">⭐</span><span><strong>REMINDER:</strong> ${d.reminder} <span>${d.icon}</span></span></div>
+  `;
+  board.appendChild(note);
+});
+
+function updateProgress(){
+  const boxes = document.querySelectorAll('.items input[type="checkbox"]');
+  let checked = 0;
+  boxes.forEach(b => { if(b.checked) checked++; });
+
+  document.getElementById('progress-count').textContent = checked;
+  const pct = (checked / totalTasks) * 100;
+  document.getElementById('track-fill').style.width = pct + '%';
+  document.getElementById('track-rocket').style.left = pct + '%';
+
+  // update each note's "done" state + strikethrough
+  document.querySelectorAll('.note').forEach(note => {
+    const inputs = note.querySelectorAll('input[type="checkbox"]');
+    let allDone = true;
+    inputs.forEach(inp => {
+      const li = inp.closest('li');
+      if(inp.checked){ li.classList.add('checked-text'); }
+      else { li.classList.remove('checked-text'); allDone = false; }
+    });
+    note.classList.toggle('done', allDone);
+  });
+
+  const finalBanner = document.getElementById('final-banner');
+  if(checked === totalTasks){
+    finalBanner.textContent = "You did it — 10 days, done. 👑";
+  } else {
+    finalBanner.textContent = "Consistency creates opportunities.";
+  }
+}
+
+board.addEventListener('change', e => {
+  if(e.target.matches('input[type="checkbox"]')) updateProgress();
+});
+
+document.getElementById('reset-btn').addEventListener('click', () => {
+  document.querySelectorAll('.items input[type="checkbox"]').forEach(b => b.checked = false);
+  updateProgress();
+});
+
+updateProgress();
+</script>
+
+</body>
+</html>
