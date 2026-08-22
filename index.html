@@ -596,3 +596,34 @@ updateProgress();
 
 </body>
 </html>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+        // 1. I-LOAD ANG PROGRESS: Binabasa ang naka-save sa browser pagka-open ng page
+        checkboxes.forEach((checkbox, index) => {
+            const savedState = localStorage.getItem(`va_workbook_task_${index}`);
+            if (savedState === "true") {
+                checkbox.checked = true;
+            } else if (savedState === "false") {
+                checkbox.checked = false;
+            }
+        });
+
+        // Awtomatikong pinapagana ang counter mo pagka-load ng page
+        if (typeof updateProgress === "function") { updateProgress(); }
+
+        // 2. I-SAVE ANG PROGRESS: Awtomatikong nagse-save tuwing may iki-click ang user
+        checkboxes.forEach((checkbox, index) => {
+            checkbox.addEventListener("change", () => {
+                localStorage.setItem(`va_workbook_task_${index}`, checkbox.checked);
+                
+                // Ina-update ang counter/progress bar tuwing may binabago
+                if (typeof updateProgress === "function") { updateProgress(); }
+            });
+        });
+    });
+    </script>
+
+</body>
+</html>
