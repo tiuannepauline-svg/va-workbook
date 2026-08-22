@@ -601,13 +601,19 @@ function updateProgress(){
       }
   });
 
-  // 3. BURAHIN ANG STORAGE KAPAG PINDOT ANG RESET BUTTON (In-update ang line 589 mo)
+  // 3. BURAHIN ANG STORAGE KAPAG PINDOT ANG RESET BUTTON (May Confirmation Pop-up na!)
   document.getElementById('reset-btn').addEventListener('click', () => {
-      checkboxes.forEach((b, index) => {
-          b.checked = false;
-          localStorage.removeItem(`va_workbook_task_${index}`);
-      });
-      updateProgress();
+      // Magpapakita ng pop-up. Kung pinindot ang "OK", magiging true ito.
+      const siguradoKaBa = confirm("Sigurado ka ba na gusto mong i-reset ang lahat ng iyong progress? Hindi na ito mababawi.");
+      
+      if (siguradoKaBa) {
+          checkboxes.forEach((b, index) => {
+              b.checked = false;
+              localStorage.removeItem(`va_workbook_task_${index}`);
+          });
+          updateProgress();
+      }
+      // Kung pinindot ang "Cancel", walang mangyayari at ligtas ang progress mo!
   });
 
   // Patakbuhin ang counter sa simula
