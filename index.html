@@ -582,48 +582,37 @@ function updateProgress(){
   }
 }
 
-board.addEventListener('change', e => {
-  if(e.target.matches('input[type="checkbox"]')) updateProgress();
-});
+// 1. I-LOAD ANG PROGRESS PAGKABUKAS NG PAGE
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  checkboxes.forEach((checkbox, index) => {
+      const savedState = localStorage.getItem(`va_workbook_task_${index}`);
+      if (savedState === "true") checkbox.checked = true;
+  });
 
-document.getElementById('reset-btn').addEventListener('click', () => {
-  document.querySelectorAll('.items input[type="checkbox"]').forEach(b => b.checked = false);
+  // 2. I-SAVE ANG PROGRESS TUWING MAY NAGBABAGO (In-update ang line 585 mo)
+  board.addEventListener('change', e => {
+      if(e.target.matches('input[type="checkbox"]')) {
+          // Hanapin kung pang-ilang checkbox ang cliniclick gamit ang index
+          const index = Array.from(checkboxes).indexOf(e.target);
+          if (index !== -1) {
+              localStorage.setItem(`va_workbook_task_${index}`, e.target.checked ? "true" : "false");
+          }
+          updateProgress();
+      }
+  });
+
+  // 3. BURAHIN ANG STORAGE KAPAG PINDOT ANG RESET BUTTON (In-update ang line 589 mo)
+  document.getElementById('reset-btn').addEventListener('click', () => {
+      checkboxes.forEach((b, index) => {
+          b.checked = false;
+          localStorage.removeItem(`va_workbook_task_${index}`);
+      });
+      updateProgress();
+  });
+
+  // Patakbuhin ang counter sa simula
   updateProgress();
-});
-
-updateProgress();
 </script>
-
-</body>
-</html>
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-
-        // 1. I-LOAD ANG PROGRESS: Binabasa ang naka-save sa browser pagka-open ng page
-        checkboxes.forEach((checkbox, index) => {
-            const savedState = localStorage.getItem(`va_workbook_task_${index}`);
-            if (savedState === "true") {
-                checkbox.checked = true;
-            } else if (savedState === "false") {
-                checkbox.checked = false;
-            }
-        });
-
-        // Awtomatikong pinapagana ang counter mo pagka-load ng page
-        if (typeof updateProgress === "function") { updateProgress(); }
-
-        // 2. I-SAVE ANG PROGRESS: Awtomatikong nagse-save tuwing may iki-click ang user
-        checkboxes.forEach((checkbox, index) => {
-            checkbox.addEventListener("change", () => {
-                localStorage.setItem(`va_workbook_task_${index}`, checkbox.checked);
-                
-                // Ina-update ang counter/progress bar tuwing may binabago
-                if (typeof updateProgress === "function") { updateProgress(); }
-            });
-        });
-    });
-    </script>
 
 </body>
 </html>
